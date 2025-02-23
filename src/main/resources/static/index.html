@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KOMBAT Game</title>
+    <script>
+        // Connect to the WebSocket endpoint
+        const socket = new WebSocket("ws://localhost:8080/ws/game");
+
+        socket.onopen = function(event) {
+            console.log("WebSocket connection established");
+        };
+
+        socket.onmessage = function(event) {
+            console.log("Message from server:", event.data);
+            // You can update your UI with the received data.
+        };
+
+        // Function to call REST endpoint to start the game.
+        function startGame() {
+            fetch("/startGame")
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => console.error("Error starting game:", error));
+        }
+    </script>
+</head>
+<body>
+<h1>Welcome to KOMBAT!</h1>
+<button onclick="startGame()">Start Game</button>
+<div id="gameStatus"></div>
+</body>
+</html>
