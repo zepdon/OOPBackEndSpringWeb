@@ -1,5 +1,5 @@
 // src/main/java/com/example/kombat/controller/BoardController.java
-package com.example.kombat.config;
+package com.example.kombat.controller;
 
 import com.example.kombat.websocket.BoardWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;

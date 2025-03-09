@@ -13,14 +13,4 @@ public class KombatApplication {
         SpringApplication.run(KombatApplication.class, args);
     }
 
-//    @Bean
-//    public CommandLineRunner runGameLauncher() {
-//        return args -> {
-//            // Optionally run it in a new thread if GameLauncher.launch() is blocking.
-//            new Thread(() -> {
-//                GameLauncher.launch();
-//            }).start();
-//        };
-//    }
-
 }

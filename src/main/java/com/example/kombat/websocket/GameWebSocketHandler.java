@@ -7,6 +7,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 public class GameWebSocketHandler extends TextWebSocketHandler {
 
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         // Send a welcome message once a client connects.
