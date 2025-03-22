@@ -15,6 +15,7 @@ public class Player {
     private List<Minion> minionsOwned;
     private int spawnsUsed;
     private boolean isBot;
+    private Set<Hex> buyableHexes;
 
     public Player(double initBudget, double interestRatePercentage, boolean isBot) {
         this.id = nextId++;
@@ -24,6 +25,29 @@ public class Player {
         this.minionsOwned = new ArrayList<>();
         this.spawnsUsed = 0;
         this.isBot = isBot;
+        this.buyableHexes = new HashSet<>();
+    }
+
+    public Set<Hex> getBuyableHexes() {
+        for (Hex owned : boughtHexes) {
+            for (Hex adj : owned.getAdjacentHexes()) {
+                if (adj.getOwner() == null) {
+                    buyableHexes.add(adj);
+                }
+            }
+        }
+        return buyableHexes;
+    };
+    /**
+     * Returns a list of hexes owned by this player.
+     * Each hex is represented as a string in the format "(row,col)".
+     */
+    public List<String> getOwnedHexes() {
+        List<String> ownedHexes = new ArrayList<>();
+        for (Hex hex : boughtHexes) {
+            ownedHexes.add("(" + hex.getRow() + "," + hex.getCol() + ")");
+        }
+        return ownedHexes;
     }
 
     public int getId() { return id; }
@@ -106,15 +130,8 @@ public class Player {
         }
         System.out.println();
 
-        // Compute buyable hexes: adjacent to any owned hex and not yet owned.
-        Set<Hex> buyableHexes = new HashSet<>();
-        for (Hex owned : boughtHexes) {
-            for (Hex adj : owned.getAdjacentHexes()) {
-                if (adj.getOwner() == null) {
-                    buyableHexes.add(adj);
-                }
-            }
-        }
+        getBuyableHexes();
+
         System.out.print("Buyable Hexes: ");
         for (Hex hex : buyableHexes) {
             System.out.print("(" + hex.getRow() + "," + hex.getCol() + ") ");

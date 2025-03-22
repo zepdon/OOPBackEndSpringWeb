@@ -48,7 +48,33 @@ public class Game implements GameCommand {
         }
         setupSpawnZones();
     }
-
+    /**
+     * Prints the hexes owned by the specified player.
+     * @param player The player whose hexes will be printed.
+     */
+    private void printPlayerOwnedHexes(Player player) {
+        List<String> ownedHexes = player.getOwnedHexes();
+        System.out.println("Player " + player.getId() + " owns the following hexes: " + ownedHexes);
+    }
+    /**
+     * Returns a list of hexes owned by the specified player.
+     * @param playerId The ID of the player (1 or 2).
+     * @return A list of hexes in the format "(row,col)".
+     */
+    public List<String> getPlayerOwnedHexes(int playerId) {
+        if (playerId < 1 || playerId > players.size()) {
+            throw new IllegalArgumentException("Invalid player ID. Player IDs start from 1.");
+        }
+        Player player = players.get(playerId - 1); // Players are stored in a 0-based list
+        return player.getOwnedHexes();
+    }
+    public int getPlayerOwnBudget(int playerId) {
+        if (playerId < 1 || playerId > players.size()) {
+            throw new IllegalArgumentException("Invalid player ID. Player IDs start from 1.");
+        }
+        Player player = players.get(playerId - 1);
+        return player.budget();
+    }
     /**
      * Public method to init the singleton.
      */
@@ -124,6 +150,7 @@ public class Game implements GameCommand {
         while (gameState == GameStateEnum.RUNNING && currentTurn <= config.maxTurns) {
             for (Player player : players) {
                 System.out.println("\n=== Turn " + currentTurn + " for Player " + player.getId() + " ===");
+                printPlayerOwnedHexes(player);
                 // 1) Increase budget & apply interest
                 if (currentTurn > 2) {
                     applyBudgetAndInterest(player);
