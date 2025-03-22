@@ -14,7 +14,6 @@ public class Minion implements MinionInterface {
     public Hex currentHex;
     protected Player owner;
     protected String typeName;
-
     // The strategy AST for this minion.
     private Node.StateNode strategy;
 

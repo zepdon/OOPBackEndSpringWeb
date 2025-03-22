@@ -120,6 +120,7 @@ public class Player {
     public void printStatus() {
         System.out.println("==================================");
         System.out.println("Player " + id + " Status:");
+        System.out.println("Current turn " + Game.getInstance().getCurrentTurn());
         System.out.println("Budget: " + budget());
         System.out.println("Minions Count: " + minionsOwned.size());
 

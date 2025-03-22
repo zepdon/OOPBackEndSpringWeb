@@ -3,7 +3,6 @@ package com.example.kombat.models;
 public class Minion {
     private int id;
     private String src;
-    private int atk;
     private int def;
     private int hp;
 
@@ -22,14 +21,6 @@ public class Minion {
 
     public void setSrc(String src) {
         this.src = src;
-    }
-
-    public int getAtk() {
-        return atk;
-    }
-
-    public void setAtk(int atk) {
-        this.atk = atk;
     }
 
     public int getDef() {
@@ -53,7 +44,6 @@ public class Minion {
         return "Minion{" +
                 "id=" + id +
                 ", src='" + src + '\'' +
-                ", atk=" + atk +
                 ", def=" + def +
                 ", hp=" + hp +
                 '}';
