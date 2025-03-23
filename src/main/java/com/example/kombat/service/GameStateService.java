@@ -136,6 +136,14 @@ public class GameStateService {
     public int getGameMode(){
         return Game.getInstance().getGameMode();
     }
+    public int Player1spawnRemaining(){
+        System.out.println(Game.getInstance().getPlayers().get(0).getSpawnAvalible());
+        return Game.getInstance().getPlayers().get(0).getSpawnAvalible();
+    }
+    public int Player2spawnRemaining(){
+        System.out.println(Game.getInstance().getPlayers().get(1).getSpawnAvalible());
+        return Game.getInstance().getPlayers().get(1).getSpawnAvalible();
+    }
 
 
 }

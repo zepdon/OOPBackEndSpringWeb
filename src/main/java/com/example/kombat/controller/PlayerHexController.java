@@ -96,6 +96,16 @@ public class PlayerHexController {
             messagingTemplate.convertAndSend("/topic/gameResult", result);
         }
     }
+    @MessageMapping("/board/request-player1-spawnRemaining")
+    public void handlePlayer1SpawnRemainingRequest() {
+        int spawn = gameStateService.Player1spawnRemaining();
+        messagingTemplate.convertAndSend("/topic/player1-spawnRemaining", spawn);
+    }
+    @MessageMapping("/board/request-player2-spawnRemaining")
+    public void handlePlayer2SpawnRemainingRequest() {
+        int spawn = gameStateService.Player2spawnRemaining();
+        messagingTemplate.convertAndSend("/topic/player2-spawnRemaining", spawn);
+    }
     @MessageMapping("/board/perform-turn")
     public void performTurn(TurnData turnData) {
         int player = 0;
@@ -111,6 +121,7 @@ public class PlayerHexController {
             handleCurrentTurnRequest();
             handleMinionRequest();
             handleGameResultRequest();
+            handlePlayer1SpawnRemainingRequest();
         } else if ( player == 1 ) {
             gameStateService.performturnPlayer2(turnData.getMinionRow(), turnData.getMinionCol(), turnData.getHexRow(), turnData.getHexCol(), turnData.getTypeIndex());
             handlePlayer1HexesRequest();
@@ -120,6 +131,7 @@ public class PlayerHexController {
             handleCurrentTurnRequest();
             handleMinionRequest();
             handleGameResultRequest();
+            handlePlayer2SpawnRemainingRequest();
         }
     }
 

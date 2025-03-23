@@ -28,6 +28,7 @@ public class Player {
         this.spawnsUsed = 0;
         this.isBot = isBot;
         this.buyableHexes = new HashSet<>();
+        this.spawnAvalible = 15; //from config
     }
 
     public Set<Hex> getBuyableHexes() {
