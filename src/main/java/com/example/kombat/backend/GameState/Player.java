@@ -50,6 +50,9 @@ public class Player {
         return ownedHexes;
     }
 
+    public List<Minion> getMinions() {
+        return minionsOwned;
+    }
     public int getId() { return id; }
     public double getCurrentBudget() { return currentBudget; }
 

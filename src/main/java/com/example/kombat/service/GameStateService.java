@@ -2,18 +2,22 @@ package com.example.kombat.service;
 
 import com.example.kombat.backend.GameState.Game;
 import com.example.kombat.backend.GameState.Minion;
+import com.example.kombat.backend.GameState.MinionType;
 import com.example.kombat.backend.GameState.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class GameStateService {
 
     private final SimpMessagingTemplate messagingTemplate;
+
 
     @Autowired
     public GameStateService(SimpMessagingTemplate messagingTemplate) {
@@ -63,6 +67,15 @@ public class GameStateService {
         Game.getInstance().performTurn(Game.getInstance().getPlayers().get(1), minionrow, minioncol, hexrow, hexcol, typeindex);
         Game.getInstance().endturn();
     }
+    /* example
+
+    [MyNameisOne, MyNameisTwo, MynameisPoon, 4, Why does that guy name just "4" ???]*/
+    public List<String> getAllMinionTypesName() {
+        List<String> l = new ArrayList<>();
+        for (MinionType mt : Game.getInstance().minionTypes) {
+            l.add(mt.getName());}
+        return l;
+    }
 //    public List<Minion> getMinionPlayer1() {
 //        System.out.println("getMinionPlayer1"+Game.getInstance().getMinions(1));
 //        return Game.getInstance().getMinions(1);
@@ -70,5 +83,6 @@ public class GameStateService {
 //    public List<Minion> getMinionPlayer2() {
 //        return Game.getInstance().getMinions(2);
 //    }
+
 
 }

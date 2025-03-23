@@ -63,17 +63,11 @@ public class PlayerHexController {
         int minionType = gameStateService.getMinionType();
         messagingTemplate.convertAndSend("/topic/minion-type", minionType);
     }
-//    @MessageMapping("/board/request-player1-minions")
-//    public void handlePlayer1MinionsRequest() {
-//        List<Minion> player1Minions = gameStateService.getMinionPlayer1();
-//        messagingTemplate.convertAndSend("/topic/player1-minions", player1Minions);
-//    }
-//
-//    @MessageMapping("/board/request-player2-minions")
-//    public void handlePlayer2MinionsRequest() {
-//        List<Minion> player2Minions = gameStateService.getMinionPlayer2();
-//        messagingTemplate.convertAndSend("/topic/player2-minions", player2Minions);
-//    }
+    @MessageMapping("/board/request-all-minion-name")
+    public void handleAllMinionNameRequest() {
+        List<String> MinionName = gameStateService.getAllMinionTypesName();
+        messagingTemplate.convertAndSend("/topic/all-minion-name", MinionName);
+    }
     @MessageMapping("/board/perform-turn")
     public void performTurn(TurnData turnData) {
         int player = 0;
@@ -118,5 +112,7 @@ public class PlayerHexController {
         int minionType = gameStateService.getMinionType();
         messagingTemplate.convertAndSend("/topic/minion-type", minionType);
 
+        List<String> MinionName = gameStateService.getAllMinionTypesName();
+        messagingTemplate.convertAndSend("/topic/all-minion-name", MinionName);
     }
 }

@@ -30,7 +30,7 @@ public class Game implements GameCommand {
     private int currentTurn;     // which turn we are on
 
     private Minion currentMinion;
-    private List<MinionType> minionTypes; // The available minion kinds
+    public List<MinionType> minionTypes; // The available minion kinds
 
     private Map<String, Long> variableEnv; // For storing global or shared variables if needed
     private Scanner scanner = new Scanner(System.in);
@@ -78,6 +78,14 @@ public class Game implements GameCommand {
         }
         Player player = players.get(playerId - 1);
         return player.budget();
+    }
+
+    public List<Minion> getMinions(int playerId) {
+        if (playerId < 1 || playerId > players.size()) {
+            throw new IllegalArgumentException("Invalid player ID. Player IDs start from 1.");
+        }
+        Player player = players.get(playerId - 1);
+        return player.getMinions();
     }
 
     /**
@@ -738,4 +746,5 @@ public class Game implements GameCommand {
     public ConfigLoader getConfig() {
         return config;
     }
+
 }
