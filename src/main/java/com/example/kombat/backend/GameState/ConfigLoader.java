@@ -84,6 +84,14 @@ public class ConfigLoader {
         return configValues.get(key);
     }
 
+    public long getMaxSpawns() {
+        return maxSpawns;
+    }
+
+    public int getMaxTurns() {
+        return (int) maxTurns;
+    }
+
     /**
      * Returns an unmodifiable view of all configuration properties.
      */

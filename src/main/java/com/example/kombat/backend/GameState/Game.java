@@ -168,44 +168,7 @@ public class Game implements GameCommand {
      * 4) Minions execute strategies.
      * 5) Check end conditions.
      */
-    public void start() {
-//        while (gameState == GameStateEnum.RUNNING && currentTurn <= config.maxTurns) {
-//            for (Player player : players) {
-//                System.out.println("\n=== Turn " + currentTurn + " for Player " + player.getId() + " ===");
-//
-//                if (!player.isBot()) {
-//                    Scanner scanner = new Scanner(System.in);
-//                    System.out.print("Enter minion row (e.g., 0): ");
-//                    int minionrow = scanner.nextInt();
-//
-//                    System.out.print("Enter minion column (e.g., 0): ");
-//                    int minioncol = scanner.nextInt();
-//
-//                    System.out.print("Enter hex row (e.g., 0): ");
-//                    int hexrow = scanner.nextInt();
-//
-//                    System.out.print("Enter hex column (e.g., 0): ");
-//                    int hexcol = scanner.nextInt();
-//
-//                    System.out.print("Enter type index (e.g., 0): ");
-//                    int typeindex = scanner.nextInt();
-//
-//                    applyBudgetAndInterest(player);
-//                    performTurn(player, minionrow, minioncol, hexrow, hexcol, typeindex);
-//                    endturn();
-//                } else {
-//                    int minionrow = 0;
-//                    int minioncol = 0;
-//                    int hexrow = 0;
-//                    int hexcol = 0;
-//                    int typeindex = 0;
-//                    applyBudgetAndInterest(player);
-//                    performTurn(player, minionrow, minioncol, hexrow, hexcol, typeindex);
-//                    endturn();
-//                }
-//            }
-//        }
-    }
+    public void start() {}
 
     /**
      * Execute minion strategy of a player
@@ -246,7 +209,7 @@ public class Game implements GameCommand {
      */
     public void applyBudgetAndInterest(Player player) {
         // Add turn budget
-        if (Game.getInstance().currentTurn > 2) {
+        if (Game.getInstance().currentTurn > 2 && gameState != GameStateEnum.ENDED) {
             player.adjustBudget(config.turnBudget);
 
             // interest = m * (r / 100), r = interestPct * log10(m) * ln(currentTurn)
@@ -279,14 +242,15 @@ public class Game implements GameCommand {
      */
     public void performTurn(Player player, int minionRow, int minionCol, int hexRow, int hexCol, int typeIndex) {
         int spawnMinionType = typeIndex - 1;
-        if (!player.isBot()) {
-            performHumanTurn(player, minionRow, minionCol, hexRow, hexCol, spawnMinionType);
-        } else {
-            performBotTurn(player);
+        if (gameState != GameStateEnum.ENDED) {
+            if (!player.isBot()) {
+                performHumanTurn(player, minionRow, minionCol, hexRow, hexCol, spawnMinionType);
+            } else {
+                performBotTurn(player);
+            }
+
+            executeMinionStrategy(player);
         }
-
-        executeMinionStrategy(player);
-
     }
 
     /**
@@ -316,7 +280,7 @@ public class Game implements GameCommand {
             // Check if enough budget to spawn
             if (player.getCurrentBudget() >= config.spawnCost) {
                 // Convert to zero-based index and spawn
-                if (typeIndex >= 0 && typeIndex < minionTypes.size()) {
+                if (typeIndex >= 0 && typeIndex < minionTypes.size() && player.getSpawnsUsed() < config.maxSpawns) {
                     spawnMinion(player, spawnminionHex, typeIndex);
                     player.printStatus();
                 } else {
@@ -329,158 +293,6 @@ public class Game implements GameCommand {
             System.out.println("Invalid spawn location. Skipping spawn.");
         }
     }
-
-    //OLD do not call this
-//    private void performTurn(Player player) {
-//        if (!player.isBot()) {
-//            performHumanTurn(player);
-//        } else {
-//            performBotTurn(player);
-//        }
-//
-//        executeMinionStrategy(player);
-//    }
-
-    //    Old do not call this
-//    private void performHumanTurn(Player player) {
-//        player.printStatus();
-//        board.printBoard();
-//
-//        // --- Hex Purchase ---
-//        boolean validBuyInput = false;
-//        while (!validBuyInput && currentTurn > 2) {
-//            System.out.print("Do you want to buy a hex? (y/n): ");
-//            String ans = scanner.nextLine().trim().toLowerCase();
-//            if (ans.equals("y") || ans.equals("n")) {
-//                validBuyInput = true;
-//                if (ans.equals("y")) {
-//                    boolean validHex = false;
-//                    while (!validHex) {
-//                        System.out.print("Enter row and column to buy (e.g., '2 3'): ");
-//                        String line = scanner.nextLine().trim();
-//                        String[] parts = line.split("\\s+");
-//                        if (parts.length != 2) {
-//                            System.out.println("Please enter exactly two numbers separated by space.");
-//                            continue;
-//                        }
-//                        try {
-//                            int row = Integer.parseInt(parts[0]);
-//                            int col = Integer.parseInt(parts[1]);
-//                            Hex hex = board.getHex(row, col);
-//                            if (hex == null) {
-//                                System.out.println("Coordinates out of bounds. Please try again.");
-//                            } else if (hex.getOwner() != null) {
-//                                System.out.println("This hex is already owned. Please choose another.");
-//                            } else if (!player.canBuyHex(hex)) {
-//                                System.out.println("You can only buy a hex adjacent to your owned hexes. Please try again.");
-//                            } else {
-//                                player.buyHex(hex, config.hexPurchaseCost);
-//                                validHex = true;
-//                                player.printStatus();
-//                            }
-//                        } catch (NumberFormatException e) {
-//                            System.out.println("Invalid input. Please enter two integers.");
-//                        }
-//                    }
-//                }
-//            } else {
-//                System.out.println("Invalid input. Please enter 'y' or 'n'.");
-//            }
-//        }
-//
-//        // --- Minion Spawn ---
-//        // If it's the first turn, the player must spawn at least one minion.
-//        boolean mustSpawn = (currentTurn <= 2);
-//        boolean spawned = false; // track whether a spawn was successful
-//        while (!spawned && (player.getSpawnsUsed() < config.maxSpawns)) {
-//            boolean validSpawnInput = false;
-//            // On first turn, force the answer to be "y"
-//            if (mustSpawn) {
-//                System.out.println("You must spawn a minion on your first turn.");
-//                validSpawnInput = true;
-//            } else {
-//                while (!validSpawnInput) {
-//                    System.out.print("Spawn a new minion? (y/n): ");
-//                    String ans = scanner.nextLine().trim().toLowerCase();
-//                    if (ans.equals("y") || ans.equals("n")) {
-//                        validSpawnInput = true;
-//                        if (ans.equals("n")) {
-//                            return; // if not first turn, allow opting out
-//                        }
-//                    } else {
-//                        System.out.println("Invalid input. Please enter 'y' or 'n'.");
-//                    }
-//                }
-//            }
-//
-//            // Proceed with spawn (forced or chosen)
-//            boolean validSpawnLocation = false;
-//            while (!validSpawnLocation) {
-//                System.out.print("Enter row and column for spawn (e.g., '2 3'): ");
-//                String line = scanner.nextLine().trim();
-//                String[] parts = line.split("\\s+");
-//                if (parts.length != 2) {
-//                    System.out.println("Please enter exactly two numbers separated by space.");
-//                    continue;
-//                }
-//                try {
-//                    int row = Integer.parseInt(parts[0]);
-//                    int col = Integer.parseInt(parts[1]);
-//                    Hex spawnHex = board.getHex(row, col);
-//                    if (spawnHex == null) {
-//                        System.out.println("Coordinates out of bounds. Please try again.");
-//                    } else if (spawnHex.getOwner() != player) {
-//                        System.out.println("You can only spawn on a hex that belongs to you. Please try again.");
-//                    } else if (spawnHex.isOccupied()) {
-//                        System.out.println("This hex is already occupied. Please choose another.");
-//                    } else {
-//                        // Check if enough budget to spawn
-//                        if (player.getCurrentBudget() < config.spawnCost) {
-//                            System.out.println("Not enough budget to spawn a minion.");
-//                            // If first turn and cannot spawn, force re-prompt (or handle as a critical error)
-//                            return;
-//                        }
-//                        // Let the user choose a minion type
-//                        boolean validTypeChoice = false;
-//                        int typeChoice = -1;
-//                        while (!validTypeChoice) {
-//                            System.out.println("Choose a minion type index:");
-//                            for (int i = 0; i < minionTypes.size(); i++) {
-//                                MinionType t = minionTypes.get(i);
-//                                System.out.println((i + 1) + ". " + t.getName() + " (def=" + t.getDefenseFactor() + ")");
-//                            }
-//                            System.out.print("Enter a number between 1 and " + minionTypes.size() + ": ");
-//                            String typeInput = scanner.nextLine().trim();
-//                            try {
-//                                typeChoice = Integer.parseInt(typeInput);
-//                                if (typeChoice >= 1 && typeChoice <= minionTypes.size()) {
-//                                    validTypeChoice = true;
-//                                } else {
-//                                    System.out.println("Invalid choice. Please try again.");
-//                                }
-//                            } catch (NumberFormatException e) {
-//                                System.out.println("Invalid input. Please enter a number.");
-//                            }
-//                        }
-//                        // Convert to zero-based index and spawn
-//                        typeChoice--;
-//                        spawnMinion(player, spawnHex, typeChoice);
-//                        validSpawnLocation = true;
-//                        spawned = true;
-//                    }
-//                } catch (NumberFormatException e) {
-//                    System.out.println("Invalid input. Please enter two integers.");
-//                }
-//            }
-//            // If it's the first turn and spawn hasn't been successful, repeat the loop until a spawn occurs.
-//            if (mustSpawn && !spawned) {
-//                System.out.println("You must spawn at least one minion on your first turn.");
-//            } else if (!mustSpawn) {
-//                // For subsequent turns, if spawn was not performed (user answered "n"), then exit.
-//                break;
-//            }
-//        }
-//    }
 
     /**
      * Perform the bot's turn
@@ -560,9 +372,11 @@ public class Game implements GameCommand {
         newMinion.setStrategy(chosenType.getStrategyAST());
         // Set the minion's type name.
         newMinion.setTypeName(chosenType.getName());
+        newMinion.setTypeNumber(typeIndex);
 
         player.addMinion(newMinion);
         player.incrementSpawnsUsed();
+        player.setSpawnAvalible();
         System.out.println("Spawned minion " + spawnOrder + " of type " + chosenType.getName() +
                 " at (" + hex.getRow() + "," + hex.getCol() + ")");
     }

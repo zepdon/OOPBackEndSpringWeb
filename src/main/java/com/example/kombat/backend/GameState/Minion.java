@@ -19,6 +19,8 @@ public class Minion implements MinionInterface {
     protected String typeName;
     // The strategy AST for this minion.
     private Node.StateNode strategy;
+    private int typeNumber;
+    private String src;
 
     public Minion(int hp, int defenseFactor, Hex spawnHex, Player owner, int order) {
         this.hp = hp;
@@ -43,6 +45,33 @@ public class Minion implements MinionInterface {
 
     public String getTypeName() {
         return typeName;
+    }
+
+    public void setTypeNumber(int typeNumber) {
+        this.typeNumber = typeNumber;
+        this.src  = getSrcForTypeNumber(typeNumber);
+    }
+
+    // Helper method to determine src based on typeNumber
+    private String getSrcForTypeNumber(int typeNumber) {
+        switch (typeNumber) {
+            case 0:
+                return "/image/Minion/minion1.png";
+            case 1:
+                return "/image/Minion/minion2.png";
+            case 2:
+                return "/image/Minion/minion3.png";
+            case 3:
+                return "/image/Minion/minion4.png";
+            case 4:
+                return "/image/Minion/minion5.png";
+            default:
+                return ""; // Default or fallback value
+        }
+    }
+
+    public String getSrc() {
+        return src;
     }
 
     // Execute the minion's fixed strategy (one action per turn).
@@ -293,8 +322,6 @@ public class Minion implements MinionInterface {
     public Hex getCurrentHex() {
         return currentHex;
     }
-
-    private int typeNumber;
 
     public int getTypeNumberPlusOne() {
         return typeNumber+1;

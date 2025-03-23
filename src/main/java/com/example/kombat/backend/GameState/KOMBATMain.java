@@ -39,6 +39,9 @@ public class KOMBATMain {
         Game.getInstance().endturn();
         System.out.println(Game.getInstance().getPlayerOwnBudget(1));
         System.out.println(Game.getInstance().getPlayers().get(0).getOwnedHexes());
+        //value that maybe use
+        System.out.println(Game.getInstance().getPlayers().get(0).getSpawnAvalible());
+        System.out.println(Game.getInstance().getConfig().getMaxTurns());
 //
 //
         Game.getInstance().getBoard().printBoard();

@@ -1,9 +1,6 @@
 package com.example.kombat.service;
 
-import com.example.kombat.backend.GameState.Game;
-import com.example.kombat.backend.GameState.Minion;
-import com.example.kombat.backend.GameState.MinionType;
-import com.example.kombat.backend.GameState.Player;
+import com.example.kombat.backend.GameState.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -84,13 +81,58 @@ public class GameStateService {
         }
         return l;
     }
-//    public List<Minion> getMinionPlayer1() {
-//        System.out.println("getMinionPlayer1"+Game.getInstance().getMinions(1));
-//        return Game.getInstance().getMinions(1);
-//    }
-//    public List<Minion> getMinionPlayer2() {
-//        return Game.getInstance().getMinions(2);
-//    }
+    /*
+     * [[1, 1, 100, 1, /image/Minion/minion1.png, blue], [1, 2, 100, 3, /image/Minion/minion3.png, blue], [2, 2, 100, 5, /image/Minion/minion5.png, blue], [7, 6, 100, 3, /image/Minion/minion3.png, red], [6, 8, 100, 5, /image/Minion/minion5.png, red]]
+     */
+    public List<List<String>> getAllMinionLocationAndType() {
+        List<List<String>> result = new ArrayList<>();
+        Game game = Game.getInstance();
+
+        // Iterate over all players
+        for (Player player : game.getPlayers()) {
+            // Iterate over all minions owned by the current player
+            for (Minion m : player.getMinionsOwned()) {
+                Hex currentHex = m.getCurrentHex();
+
+                // Extract individual attributes
+                int row = currentHex.getRow();
+                int col = currentHex.getCol();
+                int typeNumber = m.getTypeNumberPlusOne();
+                int hp = m.hp;
+                int defenseFactor = m.getDefenseFactor();
+                String src = m.getSrc(); // Get the src attribute
+
+                // Determine the owner's color
+                String owner;
+                if (player.getId() == 1) {
+                    owner = "blue";
+                } else {
+                    owner = "red";
+                }
+
+                // Convert all attributes to strings
+                String rowStr = String.valueOf(row);
+                String colStr = String.valueOf(col);
+                String typeNumberStr = String.valueOf(typeNumber);
+                String hpStr = String.valueOf(hp);
+                String defenseFactorStr = String.valueOf(defenseFactor);
+
+                // Create a list for the current minion's attributes
+                List<String> minionInfo = new ArrayList<>();
+                minionInfo.add(rowStr);          // Row as String
+                minionInfo.add(colStr);          // Column as String
+                minionInfo.add(typeNumberStr);   // Type Number as String
+                minionInfo.add(hpStr);           // HP as String
+                minionInfo.add(defenseFactorStr); // Defense Factor as String
+                minionInfo.add(src);             // Src as String
+                minionInfo.add(owner);           // Owner as String ("blue" or "red")
+
+                // Add the minion's info to the result list
+                result.add(minionInfo);
+            }
+        }
+        return result;
+    }
 
 
 }

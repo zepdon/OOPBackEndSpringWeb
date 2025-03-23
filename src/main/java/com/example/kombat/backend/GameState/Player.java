@@ -17,6 +17,8 @@ public class Player {
     private boolean isBot;
     private Set<Hex> buyableHexes;
 
+    private int spawnAvalible;
+
     public Player(double initBudget, double interestRatePercentage, boolean isBot) {
         this.id = nextId++;
         this.currentBudget = initBudget;
@@ -54,6 +56,7 @@ public class Player {
         return minionsOwned;
     }
     public int getId() { return id; }
+
     public double getCurrentBudget() { return currentBudget; }
 
     //budget but return as int
@@ -79,6 +82,14 @@ public class Player {
     }
     public void incrementSpawnsUsed() {
         spawnsUsed++;
+    }
+
+    public void setSpawnAvalible() {
+        spawnAvalible = (int) Game.getInstance().getConfig().getMaxSpawns() - spawnsUsed;
+    }
+
+    public int getSpawnAvalible() {
+        return spawnAvalible;
     }
 
     public boolean isBot() { return isBot; }
