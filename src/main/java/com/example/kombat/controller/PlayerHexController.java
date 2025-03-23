@@ -83,6 +83,11 @@ public class PlayerHexController {
         messagingTemplate.convertAndSend("/topic/minion", Minion);
     }
 
+    @MessageMapping("/board/request-GameMode")
+    public void handleGameModeRequest() {
+        int gameMode = gameStateService.getGameMode();
+        messagingTemplate.convertAndSend("/topic/gameMode", gameMode);
+    }
     @MessageMapping("/board/perform-turn")
     public void performTurn(TurnData turnData) {
         int player = 0;
@@ -133,5 +138,8 @@ public class PlayerHexController {
 
         List<Integer> MinionDefence = gameStateService.getAllMinionTypesDefenseFactor();
         messagingTemplate.convertAndSend("/topic/minion-defence", MinionDefence);
+
+        int gameMode = gameStateService.getGameMode();
+        messagingTemplate.convertAndSend("/topic/gameMode", gameMode);
     }
 }

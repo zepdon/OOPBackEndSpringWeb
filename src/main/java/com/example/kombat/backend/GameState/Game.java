@@ -35,6 +35,14 @@ public class Game implements GameCommand {
     private Map<String, Long> variableEnv; // For storing global or shared variables if needed
     private Scanner scanner = new Scanner(System.in);
 
+    public int getGameMode(){
+        if(gameMode == GameMode.DUEL){
+            return 1;
+        }else if(gameMode == GameMode.SOLITAIRE){
+            return 2;
+        }else
+            return 3;
+    }
     public int getminiontype(){
         return minionTypes.size();
     }

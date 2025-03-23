@@ -133,6 +133,9 @@ public class GameStateService {
         }
         return result;
     }
+    public int getGameMode(){
+        return Game.getInstance().getGameMode();
+    }
 
 
 }

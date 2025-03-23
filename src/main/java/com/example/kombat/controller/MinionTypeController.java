@@ -38,9 +38,9 @@ public class MinionTypeController {
             Node.StateNode strategyAST = new BlockStatementNode(statements);
 
             // Optionally, create a new MinionType instance using the parsed strategy.
-            MinionType newType = new MinionType(request.getName(),
-                    Integer.parseInt(request.getDefenseFactor()),
-                    strategyAST);
+//            MinionType newType = new MinionType(request.getName(),
+//                    Integer.parseInt(request.getDefenseFactor()),
+//                    strategyAST);
             // TODO: Save or process the new minion type as needed (e.g., add to a list or persist in a database).
 
             return ResponseEntity.ok("Minion type saved successfully");
