@@ -63,10 +63,17 @@ public class PlayerHexController {
         int minionType = gameStateService.getMinionType();
         messagingTemplate.convertAndSend("/topic/minion-type", minionType);
     }
+
     @MessageMapping("/board/request-all-minion-name")
     public void handleAllMinionNameRequest() {
         List<String> MinionName = gameStateService.getAllMinionTypesName();
         messagingTemplate.convertAndSend("/topic/all-minion-name", MinionName);
+    }
+
+    @MessageMapping("/board/request-all-minion-defence")
+    public void handleAllMinionDefenceRequest() {
+        List<Integer> MinionDefence = gameStateService.getAllMinionTypesDefenseFactor();
+        messagingTemplate.convertAndSend("/topic/minion-defence", MinionDefence);
     }
     @MessageMapping("/board/perform-turn")
     public void performTurn(TurnData turnData) {
@@ -75,7 +82,6 @@ public class PlayerHexController {
             player = 1;
         }
         if ( player == 0 ) {
-            System.out.println("0000"+turnData.getMinionRow()+turnData.getMinionCol()+turnData.getHexRow()+turnData.getHexCol());
             gameStateService.performturnPlayer1(turnData.getMinionRow(), turnData.getMinionCol(), turnData.getHexRow(), turnData.getHexCol(), turnData.getTypeIndex());
             handlePlayer1HexesRequest();
             handlePlayer2HexesRequest();
@@ -114,5 +120,8 @@ public class PlayerHexController {
 
         List<String> MinionName = gameStateService.getAllMinionTypesName();
         messagingTemplate.convertAndSend("/topic/all-minion-name", MinionName);
+
+        List<Integer> MinionDefence = gameStateService.getAllMinionTypesDefenseFactor();
+        messagingTemplate.convertAndSend("/topic/minion-defence", MinionDefence);
     }
 }

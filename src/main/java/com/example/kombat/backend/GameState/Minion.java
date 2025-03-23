@@ -7,6 +7,9 @@ import com.example.kombat.backend.AST.DoneNode;
 import com.example.kombat.backend.AST.GameCommand;
 import com.example.kombat.backend.AST.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Minion implements MinionInterface {
     public int hp;
     protected int defenseFactor;
@@ -283,7 +286,18 @@ public class Minion implements MinionInterface {
                 currentHex.getRow() + ", " + currentHex.getCol() + ")");
     }
 
+    public int getDefenseFactor() {
+        return defenseFactor;
+    }
+
     public Hex getCurrentHex() {
         return currentHex;
     }
+
+    private int typeNumber;
+
+    public int getTypeNumberPlusOne() {
+        return typeNumber+1;
+    }
+
 }

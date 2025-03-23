@@ -746,5 +746,4 @@ public class Game implements GameCommand {
     public ConfigLoader getConfig() {
         return config;
     }
-
 }

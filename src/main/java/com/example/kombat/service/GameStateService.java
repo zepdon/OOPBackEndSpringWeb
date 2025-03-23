@@ -76,6 +76,14 @@ public class GameStateService {
             l.add(mt.getName());}
         return l;
     }
+
+    public List<Integer> getAllMinionTypesDefenseFactor() {
+        List<Integer> l = new ArrayList<>();
+        for (MinionType mt : Game.getInstance().minionTypes) {
+            l.add(mt.getDefenseFactor());
+        }
+        return l;
+    }
 //    public List<Minion> getMinionPlayer1() {
 //        System.out.println("getMinionPlayer1"+Game.getInstance().getMinions(1));
 //        return Game.getInstance().getMinions(1);
