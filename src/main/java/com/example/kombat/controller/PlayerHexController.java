@@ -1,5 +1,6 @@
 package com.example.kombat.controller;
 
+import com.example.kombat.backend.GameState.Game;
 import com.example.kombat.backend.GameState.Minion;
 import com.example.kombat.models.TurnData;
 import com.example.kombat.service.GameStateService;
@@ -88,6 +89,13 @@ public class PlayerHexController {
         int gameMode = gameStateService.getGameMode();
         messagingTemplate.convertAndSend("/topic/gameMode", gameMode);
     }
+    @MessageMapping("/board/request-GameResult")
+    public void handleGameResultRequest() {
+        if(Game.getInstance().gameOver()){
+            int result = Game.getInstance().GameResult();
+            messagingTemplate.convertAndSend("/topic/gameResult", result);
+        }
+    }
     @MessageMapping("/board/perform-turn")
     public void performTurn(TurnData turnData) {
         int player = 0;
@@ -102,6 +110,7 @@ public class PlayerHexController {
             handlePlayer2BudgetRequest();
             handleCurrentTurnRequest();
             handleMinionRequest();
+            handleGameResultRequest();
         } else if ( player == 1 ) {
             gameStateService.performturnPlayer2(turnData.getMinionRow(), turnData.getMinionCol(), turnData.getHexRow(), turnData.getHexCol(), turnData.getTypeIndex());
             handlePlayer1HexesRequest();
@@ -110,6 +119,7 @@ public class PlayerHexController {
             handlePlayer2BudgetRequest();
             handleCurrentTurnRequest();
             handleMinionRequest();
+            handleGameResultRequest();
         }
     }
 

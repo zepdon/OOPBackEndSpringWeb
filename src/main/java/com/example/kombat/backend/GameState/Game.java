@@ -43,6 +43,16 @@ public class Game implements GameCommand {
         }else
             return 3;
     }
+
+    public boolean gameOver(){
+        if(gameState == GameStateEnum.ENDED){
+            return true;
+        }
+        return false;
+    }
+    public int GameResult(){
+        return winner.getId();
+    }
     public int getminiontype(){
         return minionTypes.size();
     }
