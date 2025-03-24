@@ -33,7 +33,6 @@ public class Game implements GameCommand {
     public List<MinionType> minionTypes; // The available minion kinds
 
     private Map<String, Long> variableEnv; // For storing global or shared variables if needed
-    private Scanner scanner = new Scanner(System.in);
 
     public int getGameMode(){
         if(gameMode == GameMode.DUEL){
