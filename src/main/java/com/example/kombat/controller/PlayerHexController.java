@@ -1,13 +1,11 @@
 package com.example.kombat.controller;
 
 import com.example.kombat.backend.GameState.Game;
-import com.example.kombat.backend.GameState.Minion;
 import com.example.kombat.models.TurnData;
 import com.example.kombat.service.GameStateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
