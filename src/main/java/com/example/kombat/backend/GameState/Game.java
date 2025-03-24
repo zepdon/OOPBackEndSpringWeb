@@ -549,6 +549,7 @@ public class Game implements GameCommand {
     @Override
     public int takeBudget() {
         if (currentMinion != null) {
+            System.out.println("Budget :" +  currentMinion.getOwner().budget());
             return currentMinion.getOwner().budget();
         }
         return 0;
@@ -557,7 +558,9 @@ public class Game implements GameCommand {
     @Override
     public long getRandom() {
         Random rand = new Random();
-        return rand.nextInt(1000);
+        int randomNumber = rand.nextInt(1000);
+        System.out.println("Random number : " + randomNumber);
+        return randomNumber;
     }
 
     public void setCurrentMinion(Minion m) {

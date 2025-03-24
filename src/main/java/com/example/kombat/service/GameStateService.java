@@ -34,20 +34,20 @@ public class GameStateService {
     // Method to fetch player 1's budget
     public int getPlayer1Budget() {
         Game.getInstance().applyBudgetAndInterest(Game.getInstance().getPlayers().get(0));
-        System.out.println("butget to show " + Game.getInstance().getPlayerOwnBudget(1));
+        System.out.println("Player 1 budget to show " + Game.getInstance().getPlayerOwnBudget(1));
         return Game.getInstance().getPlayerOwnBudget(1);
     }
 
     // Method to fetch player 2's budget
     public int getPlayer2Budget() {
         Game.getInstance().applyBudgetAndInterest(Game.getInstance().getPlayers().get(1));
-        System.out.println("buget to show " + Game.getInstance().getPlayerOwnBudget(2));
+        System.out.println("Player 2 budget to show " + Game.getInstance().getPlayerOwnBudget(2));
         return Game.getInstance().getPlayerOwnBudget(2);
     }
 
     // Method to fetch current turn
     public int getCurrentTurn() {
-        System.out.println("cur"+Game.getInstance().getCurrentTurn());
+        System.out.println("current turn : "+Game.getInstance().getCurrentTurn());
         return Game.getInstance().getCurrentTurn();
     }
     // Method to show minion in game
@@ -137,11 +137,11 @@ public class GameStateService {
         return Game.getInstance().getGameMode();
     }
     public int Player1spawnRemaining(){
-        System.out.println(Game.getInstance().getPlayers().get(0).getSpawnAvalible());
+        System.out.println("Player 1 spawn avalible :" + Game.getInstance().getPlayers().get(0).getSpawnAvalible());
         return Game.getInstance().getPlayers().get(0).getSpawnAvalible();
     }
     public int Player2spawnRemaining(){
-        System.out.println(Game.getInstance().getPlayers().get(1).getSpawnAvalible());
+        System.out.println("Player 2 spawn avalible : " + Game.getInstance().getPlayers().get(1).getSpawnAvalible());
         return Game.getInstance().getPlayers().get(1).getSpawnAvalible();
     }
 

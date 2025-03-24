@@ -16,11 +16,13 @@ public class IdentifierNode extends Node.Expr{
         }
         if ("row".equals(identifier)) {
             if (game.getCurrentMinion() != null && game.getCurrentMinion().currentHex != null) {
+                System.out.println("Row : " + game.getCurrentMinion().getCurrentHex().getRow());
                 return game.getCurrentMinion().getCurrentHex().getRow();
             }
         }
         if ("col".equals(identifier)) {
             if (game.getCurrentMinion() != null && game.getCurrentMinion().currentHex != null) {
+                System.out.println("Col" + game.getCurrentMinion().getCurrentHex().getCol());
                 return game.getCurrentMinion().getCurrentHex().getCol();
             }
         }
@@ -31,16 +33,19 @@ public class IdentifierNode extends Node.Expr{
                 double turn = game.getCurrentTurn();
                 if (turn <= 0) turn = 1;
                 double r = game.getConfig().interestPct * Math.log10(m) * Math.log(turn);
+                System.out.println("Interest rate of player is : " + r);
                 return (long) r;
             }
             return 0;
         }
         if ("maxbudget".equals(identifier)) {
+            System.out.println("Max budget : " + game.getConfig().maxBudget);
             return game.getConfig().maxBudget;
         }
         if ("spawnleft".equals(identifier)) {
             if (game.getCurrentMinion() != null) {
                 int used = game.getCurrentMinion().getOwner().getSpawnsUsed();
+                System.out.println("Spawn left : " + (game.getConfig().maxSpawns - used));
                 return game.getConfig().maxSpawns - used;
             }
             return 0;

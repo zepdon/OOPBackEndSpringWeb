@@ -80,7 +80,7 @@ public class PlayerHexController {
     @MessageMapping("/board/request-minion")
     public void handleMinionRequest() {
         List<List<String>> Minion = gameStateService.getAllMinionLocationAndType();
-        System.out.println(Minion);
+        System.out.println("All minions : " + Minion);
         messagingTemplate.convertAndSend("/topic/minion", Minion);
     }
 
@@ -116,7 +116,7 @@ public class PlayerHexController {
             gameStateService.performturnPlayer1(turnData.getMinionRow(), turnData.getMinionCol(), turnData.getHexRow(), turnData.getHexCol(), turnData.getTypeIndex());
             handlePlayer1HexesRequest();
             handlePlayer2HexesRequest();
-            handlePlayer1BudgetRequest();
+//            handlePlayer1BudgetRequest();
             handlePlayer2BudgetRequest();
             handleCurrentTurnRequest();
             handleMinionRequest();
@@ -127,7 +127,7 @@ public class PlayerHexController {
             handlePlayer1HexesRequest();
             handlePlayer2HexesRequest();
             handlePlayer1BudgetRequest();
-            handlePlayer2BudgetRequest();
+//            handlePlayer2BudgetRequest();
             handleCurrentTurnRequest();
             handleMinionRequest();
             handleGameResultRequest();
