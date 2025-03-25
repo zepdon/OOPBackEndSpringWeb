@@ -1,8 +1,5 @@
 package com.example.kombat.backend.GameState;
 
-//import AST.DoneNode;
-//import AST.GameCommand;
-//import AST.Node;
 import com.example.kombat.backend.AST.DoneNode;
 import com.example.kombat.backend.AST.GameCommand;
 import com.example.kombat.backend.AST.Node;
@@ -138,6 +135,7 @@ public class Minion implements MinionInterface {
             currentHex.setOccupant(null);
             // Remove this minion from its owner's list.
             owner.getMinionsOwned().remove(this);
+            strategy = null;
         }
     }
 
